@@ -47,6 +47,10 @@ textarea {
 	min-height: 150px;
 }
 
+.pointer {
+	cursor: pointer;
+}
+
 .btn {
 	padding: 0.7rem 1.4rem;
 	border-radius: 5px;
@@ -87,7 +91,7 @@ textarea {
 }
 
 .alert.alert-danger {
-	background: rgb(255, 212, 212);
+	background: rgb(255, 223, 223);
 }
 
 .text-center {
@@ -118,6 +122,10 @@ textarea {
 	display: flex;
 }
 
+.flex-wrap {
+	flex-wrap: wrap;
+}
+
 .items-center {
 	align-items: center;
 }
@@ -130,7 +138,8 @@ form {
 	max-width: 400px;
 }
 
-input, textarea {
+input,
+textarea {
 	resize: none;
 	font-size: 0.9rem;
 	padding: 0.5rem;
@@ -190,6 +199,7 @@ nav {
 	left: 0;
 	right: 0;
 	height: 80px;
+	z-index: 100;
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 	background: white;
 }
@@ -202,11 +212,18 @@ nav .container {
 .navbar {
 	display: flex;
 	height: 100%;
+	align-items: center;
+	gap: 1rem;
+}
+
+.nav-content {
+	display: flex;
+	width: 100%;
 	justify-content: space-between;
 	align-items: center;
 }
 
-.navbar .logo {
+.navbar .nav-logo {
 	font-family: monospace;
 	text-transform: uppercase;
 	letter-spacing: 0.1em;
@@ -254,6 +271,48 @@ a:not(.btn).router-link-active.router-link-exact-active::after {
 	transform-origin: left center;
 }
 
+.hamburger-menu {
+	display: none;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 30px;
+	height: 25px;
+	cursor: pointer;
+	margin-left: auto;
+	position: relative;
+	z-index: 9999;
+}
+
+.hamburger-menu span {
+	width: 100%;
+	border-radius: 500px;
+	height: 4px;
+	background: var(--primary);
+	transition: 0.3s;
+}
+
+.hamburger-menu span:first-child {
+	transform-origin: left bottom;
+}
+
+.hamburger-menu span:last-child {
+	transform-origin: left top;
+}
+
+.navbar.open .hamburger-menu span:first-child {
+	transform-origin: left bottom;
+	rotate: 43deg;
+}
+
+.navbar.open .hamburger-menu span:nth-child(2) {
+	scale: 0 1;
+}
+
+.navbar.open .hamburger-menu span:last-child {
+	transform-origin: left top;
+	rotate: -43deg;
+}
+
 /* navbar end */
 
 #page {
@@ -280,7 +339,7 @@ a:not(.btn).router-link-active.router-link-exact-active::after {
 .card h2 {
 	position: relative;
 	color: white;
-	width: max-content;
+	width: fit-content;
 }
 
 .card h2::after {
@@ -314,7 +373,74 @@ a:not(.btn).router-link-active.router-link-exact-active::after {
 	font-weight: normal;
 }
 
-.pointer {
-	cursor: pointer;
-}
 /* blog page end */
+
+@media (max-width: 1000px) {
+	.hamburger-menu {
+		display: flex;
+	}
+
+	#blog {
+		flex-direction: column;
+	}
+
+	.card-list {
+		order: 2;
+	}
+
+	.filter-list {
+		max-width: 400px;
+		margin-inline: auto;
+		order: 1;
+	}
+
+	.filter-list .tags {
+		justify-content: center;
+	}
+
+	.nav-content {
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		z-index: 1000;
+		width: 70%;
+		background: white;
+		flex-direction: column;
+		align-items: flex-start;
+		padding: 2rem;
+		translate: 100%;
+		transition: 0.3s;
+	}
+
+	.navbar.open .nav-content {
+		translate: 0;
+		box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.5);
+	}
+
+	.nav-content .nav-links {
+		flex-direction: column;
+		font-size: 1.5rem;
+	}
+
+	.nav-content .login-info {
+		flex-wrap: wrap;
+	}
+
+	.login-info .btn-badge {
+		font-size: 1rem;
+		padding: 0.5rem 1rem;
+	}
+}
+
+@media (max-width: 768px) {
+	.tag {
+		padding: 0.4rem 0.8rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.nav-content {
+		padding: 1.5rem;
+	}
+}

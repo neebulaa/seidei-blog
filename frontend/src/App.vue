@@ -1,11 +1,12 @@
 <template>
-	<Navbar />
-
-	<section id="page">
-		<div class="container">
-			<RouterView :key="$route.fullPath" />
-		</div>
-	</section>
+	<div>
+		<Navbar />
+		<section id="page">
+			<div class="container">
+				<RouterView :key="$route.fullPath" />
+			</div>
+		</section>
+	</div>
 </template>
 
 <script>
