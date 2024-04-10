@@ -11,18 +11,23 @@ use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+
+        $posts = Post::latest();
+        if ($request->has('search')) {
+            $posts->where('title', "LIKE", "%$request->search%")->orWhere('body', "LIKE",  "%$request->search%");
+        }
         return response([
             "message" => "Get all posts success",
-            "posts" => PostResource::collection(Post::latest()->get())
+            "posts" => PostResource::collection($posts->get())
         ]);
     }
 
     public function show($id)
     {
         return response([
-            'message' => "Get a post success", 
+            'message' => "Get a post success",
             "post" => new PostResource(Post::find($id))
         ]);
     }

@@ -1,7 +1,7 @@
 <template>
 	<section id="blog">
 		<section class="card-list">
-			<div class="card" v-for="blog in searchedPosts" :key="blog.id">
+			<div class="card" v-for="blog in blogs" :key="blog.id">
 				<h2>{{ blog.title }}</h2>
 				<p>{{ blog.body }}</p>
 				<div class="tags mt-2" v-if="blog.tags.length">
@@ -13,7 +13,7 @@
 		</section>
 		<section class="filter-list">
 			<RouterLink :to="{ name: 'create-blog' }">
-				<button class="btn" style="width: 100%;">Create new post</button>
+				<button class="btn" style="width: 100%">Create new post</button>
 			</RouterLink>
 			<hr class="mt-2 mb-2" />
 			<div class="input-icon">
@@ -40,6 +40,7 @@
 					type="text"
 					placeholder="Search post..."
 					v-model="search"
+					@input="searchPosts"
 				/>
 			</div>
 			<hr class="mt-2 mb-2" />
@@ -67,16 +68,10 @@ export default {
 		const tags = ref([]);
 		const search = ref("");
 
-		const searchedPosts = computed(() =>
-			blogs.value.filter((blog) => {
-				return (
-					blog.title
-						.toLowerCase()
-						.includes(search.value.toLowerCase()) ||
-					blog.body.toLowerCase().includes(search.value.toLowerCase())
-				);
-			})
-		);
+		async function searchPosts(){
+			const res = await fetching('get', `posts?search=${search.value}`);
+			blogs.value = res.data.posts;
+		}
 
 		async function getAllPosts() {
 			let res;
@@ -96,7 +91,7 @@ export default {
 		getAllPosts();
 		getAllTags();
 
-		return { searchedPosts, blogs, tags, search };
+		return { blogs, tags, search, searchPosts };
 	},
 };
 </script>
