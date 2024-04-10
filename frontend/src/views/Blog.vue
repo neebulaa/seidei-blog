@@ -2,12 +2,21 @@
 	<section id="blog">
 		<section class="card-list">
 			<div class="card" v-for="blog in blogs" :key="blog.id">
-				<h2>{{ blog.title }}</h2>
-				<p>{{ blog.body }}</p>
+				<h2>
+					<RouterLink
+						:to="{ name: 'single-blog', params: { id: blog.id } }"
+						>{{ blog.title }}</RouterLink
+					>
+				</h2>
+				<p>{{ blog.body.slice(0, 100) }}...</p>
 				<div class="tags mt-2" v-if="blog.tags.length">
-					<div v-for="(tag, idx) in blog.tags" :key="idx" class="tag">
-						#{{ tag.name }}
-					</div>
+					<RouterLink
+						:to="{ name: 'tag-blog', params: { slug: tag.slug } }"
+						class="tag"
+						:key="tag.id"
+						v-for="tag in blog.tags"
+						>#{{ tag.name }}</RouterLink
+					>
 				</div>
 			</div>
 		</section>
@@ -68,12 +77,12 @@ export default {
 		const tags = ref([]);
 		const search = ref("");
 
-		async function searchPosts(){
-			const res = await fetching('get', `posts?search=${search.value}`);
+		async function searchPosts() {
+			const res = await fetching("get", `posts?search=${search.value}`);
 			blogs.value = res.data.posts;
 		}
 
-		async function getAllPosts() {
+		async function getPosts() {
 			let res;
 			if (props.slug) {
 				res = await fetching("get", `tags/${props.slug}`);
@@ -83,13 +92,13 @@ export default {
 			blogs.value = res.data.posts;
 		}
 
-		async function getAllTags() {
+		async function getTags() {
 			const res = await fetching("get", "tags");
 			tags.value = res.data.tags;
 		}
 
-		getAllPosts();
-		getAllTags();
+		getPosts();
+		getTags();
 
 		return { blogs, tags, search, searchPosts };
 	},

@@ -5,6 +5,7 @@ import Login from "@/views/Login.vue";
 import Blog from "@/views/Blog.vue";
 import Register from "@/views/Register.vue";
 import CreateBlog from '@/views/CreateBlog.vue';
+import SingleBlog from '@/views/SingleBlog.vue';
 import { fetching } from "../utils";
 
 const routes = [
@@ -30,7 +31,13 @@ const routes = [
 				component: Blog,
 			},
 			{
-				path: "/blog-posts/:slug",
+				path: "/blog-posts/:id",
+				name: "single-blog",
+				props: true,
+				component: SingleBlog,
+			},
+			{
+				path: "/blog-posts/tags/:slug",
 				name: "tag-blog",
 				props: true,
 				component: Blog,
