@@ -1,6 +1,6 @@
 ﻿# Seidei Blog Post
 
-Seidei Blog Post is a blog post website that allows user to create and share post within the website.
+Seidei Blog Post is a blog posts website that allows user to create and share post within the website.
 
 ## 💻 Tech Stacks
 
